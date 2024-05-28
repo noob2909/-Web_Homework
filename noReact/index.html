@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Data Example</title>
+</head>
+<body>
+    <button id="inuButton">INU</button>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('inuButton').addEventListener('click', function() {
+         // JSON-SERVER에 데이터를 요청
+         fetch('http://localhost:3001/web')
+            .then(response => response.json())
+            .then(data => {
+            // 데이터를 localStorage에 저장
+            localStorage.setItem('webData', JSON.stringify(data));
+            
+            // 저장된 데이터를 화면에 출력
+            displayData(data);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+});
+
+        function displayData(data) {
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = ''; // 기존 내용을 지우고
+
+         // 데이터를 화면에 출력
+         data.forEach(item => {
+              const p = document.createElement('p');
+              p.textContent = `Class: ${item.class}`;
+              outputDiv.appendChild(p);
+    });
+}
+    </script>
+</body>
+</html>
